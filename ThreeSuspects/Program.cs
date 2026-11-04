@@ -12,7 +12,7 @@
 
         }
 
-        
+
         public static int PlayerSteps = 0;
 
 
@@ -34,7 +34,7 @@
         {
             get
             {
-                return 12 - HoursPassedInGame;
+                return 0 + HoursPassedInGame;
             }
         }
 
@@ -44,7 +44,7 @@
         /// <returns>The player's menu choice.</returns>
         public static string GetPlayerMenuChoice()
         {
-            Console.WriteLine($"The time is now {TimeInGame}:00 PM");
+            Console.WriteLine($"The time is now {(1 + TimeInGame)}:00 PM");
             while (true)
             {
                 Console.WriteLine("Choose a resource:");
@@ -81,27 +81,75 @@
 
         public static void ViewMap()
         {
-            Console.WriteLine("Select a location to visit by typing in the letter. Each visit will take up 1 player step and the clock will advance an hour.");    
+            Console.WriteLine("Select a location to visit by typing in the letter. Each visit will take up 1 player step and the clock will advance an hour.");
             Console.WriteLine("Map of London");
-                Console.WriteLine("-------------");
-                Console.WriteLine("E - Euston Station");
-                Console.WriteLine("B - British Museum");
-                Console.WriteLine("W - Waldenboch Florists");
-                Console.WriteLine("P - Plumber Scampie & Sons");
-                Console.WriteLine("D - Diogenes Club");
-                Console.WriteLine("G - German Embassy");
-                Console.WriteLine("S - St James's Park");
-                Console.WriteLine("C - Charing Cross Station");
-                Console.WriteLine("V - Villiers St Hotel");
-                Console.WriteLine("M - Market");
-                Console.WriteLine("-------------");
-                GetPlayerMenuChoice();
+            Console.WriteLine("-------------");
+            Console.WriteLine("E - Euston Station");
+            Console.WriteLine("B - British Museum");
+            Console.WriteLine("W - Waldenboch Florists");
+            Console.WriteLine("P - Plumber Scampie & Sons");
+            Console.WriteLine("D - Diogenes Club");
+            Console.WriteLine("G - German Embassy");
+            Console.WriteLine("S - St James's Park");
+            Console.WriteLine("C - Charing Cross Station");
+            Console.WriteLine("V - Villiers St Hotel");
+            Console.WriteLine("M - Market");
+            Console.WriteLine("-------------");
+            string choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "E":
+                    Console.WriteLine("You have arrived at Euston Station.");
+                    PlayerSteps++;
+                    break;
+                case "B":
+                    Console.WriteLine("You have arrived at the British Museum.");
+                    PlayerSteps++;
+                    break;
+                case "W":
+                    Console.WriteLine("You have arrived at Waldenboch Florists.");
+                    PlayerSteps++;
+                    break;
+                case "P":
+                    Console.WriteLine("You have arrived at Plumber Scampie & Sons.");
+                    PlayerSteps++;
+                    break;
+                case "D":
+                    Console.WriteLine("You have arrived at the Diogenes Club.");
+                    PlayerSteps++;
+                    break;
+                case "G":
+                    Console.WriteLine("You have arrived at the German Embassy.");
+                    PlayerSteps++;
+                    break;
+                case "S":
+                    Console.WriteLine("You have arrived at St James's Park.");
+                    PlayerSteps++;
+                    break;
+                case "C":
+                    Console.WriteLine("You have arrived at Charing Cross Station.");
+                    PlayerSteps++;
+                    break;
+                case "V":
+                    Console.WriteLine("You have arrived at Villiers St Hotel.");
+                    PlayerSteps++;
+                    break;
+                case "M":
+                    Console.WriteLine("You have arrived at the Market.");
+                    PlayerSteps++;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    ViewMap();
+                    return;
+            }
+            GetPlayerMenuChoice();
         }
 
         public static void PoliceReports()
         {
             Console.WriteLine("Select a location to read about the patrolling constable on duty's observations in the area:");
-            
+
             Console.WriteLine("D - Diogenes Club");
             Console.WriteLine("C - Carlton House Terrace");
             Console.WriteLine("S - St James's Park");
@@ -112,7 +160,7 @@
             string choice = Console.ReadLine();
             switch (choice)
             {
-                
+
                 case "D":
                     Console.WriteLine("Diogenes Club: The constable reports that a man in an orange cravat and carrying a briefcase was seen catching a cab upon leaving the club at 12:46pm.");
                     break;
