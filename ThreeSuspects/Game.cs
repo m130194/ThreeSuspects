@@ -92,9 +92,17 @@ namespace ThreeSuspects
         public void VisitMarket()
         {
             Console.WriteLine("You have arrived at the Market.");
-            Console.WriteLine("You see a small boy running through the crowd carrying a yellow handbag.");
-            Console.WriteLine("He knocks into people and seems to be in a hurry.");
-            Console.WriteLine("You can try to follow him or ask around for more information.");
+            if (_cluesCollected.Contains("SB"))
+            {
+                Console.WriteLine("You see a small boy running through the crowd carrying a yellow handbag.");
+                Console.WriteLine("He knocks into people and seems to be in a hurry.");
+                Console.WriteLine("You can try to follow him or ask around for more information.");
+            }
+            else
+            {
+                Console.WriteLine("The market is bustling with activity. You see various stalls selling fruits, vegetables, and other goods.");
+                Console.WriteLine("You can ask around for information or try to find clues about the stolen document.");
+            }
             _playerSteps++;
         }
 
@@ -154,7 +162,7 @@ namespace ThreeSuspects
 
                     break;
                 case "M":
-                    Console.WriteLine("You have arrived at the Market.");
+                    VisitMarket();
 
                     break;
                 default:
@@ -183,24 +191,28 @@ namespace ThreeSuspects
 
                 case "D":
                     Console.WriteLine("Diogenes Club: The constable reports that a man in an orange cravat and carrying a briefcase was seen catching a cab upon leaving the club at 12:46pm.");
+                    AddClue("OC");
                     break;
                 case "C":
                     Console.WriteLine("Carlton House Terrace: The constable reports that a lady with a bright blue hat and yellow handbag was seen outside at the corner of the Diogenes Club walking towards St. James's Park at 12:48pm.");
                     Console.WriteLine("A big man with overalls with a large bag of tools turned down Carlton House Terrace at 12:26pm.");
-                    //why does AddClue not work here?
-                    AddClue("Large bag of tools");
+                    AddClue("BL");
+                    AddClue("OM");
                     break;
                 case "S":
                     Console.WriteLine("St James's Park: The constable reports that the park was busy, but no suspicious activity was observed.");
                     break;
                 case "CC":
                     Console.WriteLine("Charing Cross Station: The constable reports that a small boy ran off with a lady's yellow handbag. She told the constable not to worry about the bag as she was late catching her train. She was wearing a bright blue hat.");
+                    AddClue("YH");
                     break;
                 case "V":
                     Console.WriteLine("Villiers St Hotel: The constable reports that an old lady trying to get into a cab outside the hotel was pushed roughly aside by a tall bearded gentleman. The old lady fell to the ground and the constable rushed over to help her but when he looked up, the cab and the tall bearded gentleman were gone.");
+                    AddClue("TB");
                     break;
                 case "M":
                     Console.WriteLine("Market: The constable reports that a small boy carrying a yellow handbag was running through the crowd knocking into people.");
+                    AddClue("SB");
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
@@ -242,6 +254,39 @@ namespace ThreeSuspects
         {
             Console.WriteLine("Select a company to contact for more information:");
             Console.WriteLine("C - Central Carriage Station (for movements of suspects)");
+            string choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "C":
+                    ContactCentralCarriageStation();
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    ViewDirectory();
+                    return;
+            }
+        }
+
+        public void ContactCentralCarriageStation()
+        {
+            Console.WriteLine("You have contacted the Central Carriage Station.");
+            
+            if (_cluesCollected.Contains("OC"))
+            {
+                Console.WriteLine("A cab driver informs you that a man in an orange cravat and carrying a briefcase caught a cab outside the Diogenes Club to the British Museum and stopped at the Waldenboch Florists on the way.");
+            }
+            if (_cluesCollected.Contains("BL"))
+            {
+                Console.WriteLine("A cab driver informs you that a lady with a bright blue hat and yellow handbag was picked up at St James' Park and dropped off outside the Villiers St Hotel. He thinks she walked in the direction of Charing Cross Station, but he is not sure because he had another passenger jump into his cab in a hurry.");
+            }
+            else
+            {
+                Console.WriteLine("A cab driver informs you that a man in an orange cravat and carrying a briefcase was seen catching a cab at 12:46pm.");
+                Console.WriteLine("He also mentions that a lady with a bright blue hat and yellow handbag was seen outside the Diogenes Club walking towards St. James's Park at 12:48pm.");
+                AddClue("OC");
+                AddClue("BL");
+            }
+            
         }
     }
 }
