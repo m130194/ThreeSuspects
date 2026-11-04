@@ -166,7 +166,7 @@ namespace ThreeSuspects
 
         }
 
-        public static void ReadPoliceReports()
+        public void ReadPoliceReports()
         {
             Console.WriteLine("Select a location to read about the patrolling constable on duty's observations in the area:");
 
@@ -210,7 +210,7 @@ namespace ThreeSuspects
 
         }
 
-        public static void ViewTrainSchedule()
+        public void ViewTrainSchedule()
         {
             Console.WriteLine("--------------");
             Console.WriteLine("   TRAINS");
@@ -224,7 +224,7 @@ namespace ThreeSuspects
 
         }
 
-        public static void ReadNewspaper()
+        public void ReadNewspaper()
         {
             Console.WriteLine("--------------");
             Console.WriteLine("ADVERTISEMENTS");
@@ -238,7 +238,7 @@ namespace ThreeSuspects
 
         }
 
-        public static void ViewDirectory()
+        public void ViewDirectory()
         {
             Console.WriteLine("Select a company to contact for more information:");
             Console.WriteLine("C - Central Carriage Station (for movements of suspects)");
