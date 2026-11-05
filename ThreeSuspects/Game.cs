@@ -34,37 +34,25 @@ namespace ThreeSuspects
             }
         }
 
-        //private int _money
-        //{
-        //    if (_money <= 0)
-        //    {
-        //        Console.WriteLine("You have run out of money! You cannot continue your investigation.");
-        //        _isCulpritCaught = false;
-        //        _playerSteps = 11;
-        //    }
-        //    else)
-        //    {
-        //        return _money;
-        //    }
-
-        //} = 10;
-
         private int _money = 10;
         private void UseWallet(int amount)
         {
             if (_money - amount < 0)
             {
                 Console.WriteLine("You do not have enough money to make this purchase.");
+                //add a line here to break out of the current loop?
             }
             else
             {
                 _money -= amount;
             }
+            return;
         }
 
+        //this needs to stop the game once _playerSteps > 11
         public void Play()
         {
-            while (_playerSteps < 11 || !_isCulpritCaught)
+            while (_playerSteps < 11)
             {
                 GetPlayerMenuChoice();
             }
@@ -72,10 +60,9 @@ namespace ThreeSuspects
             {
                 Console.WriteLine("Congratulations! You have caught the culprit and retrieved the stolen document!");
             }
-            else
-            {
-                Console.WriteLine("You have run out of time! The culprit has escaped with the stolen document!");
-            }
+
+            Console.WriteLine("You have run out of time! The culprit has escaped with the stolen document!");
+            
 
         }
 
@@ -153,8 +140,9 @@ namespace ThreeSuspects
 
         public void BuyHandbag()
         {
-            Console.WriteLine("He asks if you're interested in buying a briefcase or handbag from him (Y/N)?");
+            Console.WriteLine("He asks if you're interested in buying a briefcase or handbag from him for 3 pounds (Y/N)?");
             string choice = Console.ReadLine();
+            Console.WriteLine("");
             if (choice == "Y")
             {
                 Console.WriteLine("");
@@ -164,24 +152,48 @@ namespace ThreeSuspects
                 Console.WriteLine("Y - Yellow handbag");
                 Console.WriteLine("Which one would you like to buy (R/G/Y)?");
                 string itemChoice = Console.ReadLine();
-                if (itemChoice == "R")
+                Console.WriteLine("");
+                switch (itemChoice)
                 {
-                    Console.WriteLine("You purchase the red briefcase. It is empty but the perfect size to hold the stolen document.");
-                    AddToInventory("RedBriefcase");
-                    UseWallet(3);
+                    case "R":
+                        UseWallet(3);
+                        Console.WriteLine("You purchase the red briefcase. It is empty but the perfect size to hold the stolen document.");
+                        AddToInventory("RedBriefcase");
+                        break;
+                    case "G":
+                        UseWallet(3);
+                        Console.WriteLine("You purchase the green briefcase. It is empty but the perfect size to hold the stolen document.");
+                        AddToInventory("GreenBriefcase");
+                        break;
+                    case "Y":
+                        UseWallet(3);
+                        Console.WriteLine("You purchase the yellow handbag. It is empty but the perfect size to hold the stolen document.");
+                        AddToInventory("YellowHandbag");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice. Try again.");
+                        return;
                 }
-                else if (itemChoice == "G")
-                {
-                    Console.WriteLine("You purchase the green briefcase. It is empty but the perfect size to hold the stolen document.");
-                    AddToInventory("GreenBriefcase");
-                    UseWallet(3);
-                }
-                else if (itemChoice == "Y")
-                {
-                    Console.WriteLine("You purchase the yellow handbag. It is empty but the perfect size to hold the stolen document.");
-                    AddToInventory("YellowHandbag");
-                    UseWallet(3);
-                }
+                //if (itemChoice == "R")
+                //{
+                //    UseWallet(3);
+                //    Console.WriteLine("You purchase the red briefcase. It is empty but the perfect size to hold the stolen document.");
+                //    AddToInventory("RedBriefcase");
+
+                //}
+                //else if (itemChoice == "G")
+                //{
+                //    UseWallet(3);
+                //    Console.WriteLine("You purchase the green briefcase. It is empty but the perfect size to hold the stolen document.");
+                //    AddToInventory("GreenBriefcase");
+
+                //}
+                //else if (itemChoice == "Y")
+                //{
+                //    UseWallet(3);
+                //    Console.WriteLine("You purchase the yellow handbag. It is empty but the perfect size to hold the stolen document.");
+                //    AddToInventory("YellowHandbag");
+                //}
             }
         }
 
@@ -196,7 +208,8 @@ namespace ThreeSuspects
             if (_cluesCollected.Contains("TallBeardedMan"))
             {
                 Console.WriteLine("You ask the porter about the tall bearded gentleman as the one who pushed an old lady aside outside the hotel earlier today.");
-                Console.WriteLine("\"Oh, you must mean Mr Bernard Falour? Yes, I remember him. He stayed here last night.\" says the porter. \"I dropped his briefcase while I was trying to help him as he was leaving the hotel. Luckily it was empty.");
+                Console.WriteLine("\"Oh, you must mean Mr Bernard Falour of Cambridge? Yes, I remember him. He stayed here last night.\" says the porter.");
+                Console.WriteLine("\"I dropped his green briefcase while I was trying to help him as he was leaving the hotel. Luckily it was empty.");
             }
             if (!_cluesCollected.Contains("TallBeardedMan"))
             {
@@ -214,6 +227,7 @@ namespace ThreeSuspects
             Console.WriteLine("You have arrived at Charing Cross Station. The platforms are bustling with passengers.");
             Console.WriteLine("You ask the station master if there has been any suspicious incidents today.");
             Console.WriteLine("He says a boy stole a handbag from a passenger and ran off in the direction of the markets.");
+            AddClue("SmallBoy");
             AddClue("YellowHandbag");
             if (_cluesCollected.Contains("BlueHatLady"))
             {
@@ -248,15 +262,16 @@ namespace ThreeSuspects
                         if (_inventory.Contains("Flowers"))
                         {
                             Console.WriteLine("You pretend to bump into her by accident and causing her to drop her flowers on the ground. The flowers scatter on the platform. You offer your bouquet as a replacement.");
+                            
                         }
                         if (_cluesCollected.Contains("OrangeCravat"))
                         {
                             Console.WriteLine("You ask her about the man in the orange cravat. \"That's Lionel, my boyfriend.\" she says, her face darkening.");
                             Console.WriteLine("\"I discovered a bouquet of roses in my sister's room with a card signed by him.\"");
                         }
-                        if (!_cluesCollected.Contains("Flowers"))
+                        if (!_inventory.Contains("Flowers"))
                         {
-                            Console.WriteLine("She throws the bouquet into a garbage bin before boarding the train. You notice she is not carrying anything else. You pick up the bouquet from the garbage bin and find nothing but flowers.");
+                            Console.WriteLine("She throws the bouquet into a garbage bin before boarding the train. You notice she is not carrying anything else. You pick up the bouquet from the garbage bin and find nothing but flowers inside.");
                         }
 
                     }
@@ -305,8 +320,10 @@ namespace ThreeSuspects
             Console.WriteLine("You have arrived at the German Embassy.");
             if (_cluesCollected.Contains("OverallsMan"))
             {
-                Console.WriteLine("You ask the security guard about the big man with overalls.");
-                Console.WriteLine("He says the man with overalls is a plumber who was called in to fix the plumbing issues.");
+                Console.WriteLine("You ask the security guard about the big man with overalls. He says the man with overalls is a plumber who was called in to fix the plumbing issues.");
+                Console.WriteLine("\"I watched him like a hawk the entire time he was working,\" says the security guard. \"Can't be too careful with this being an embassy and all.");
+                Console.WriteLine("I even checked his bag of tools to make sure he didn't steal any important papers from our office.");
+                Console.WriteLine("The only thing he had in his bag other than tools was a receipt from the Baldwin Card Club. I just saw him walk out to the park to have his lunch.\"");
             }
             else
             {
@@ -323,8 +340,8 @@ namespace ThreeSuspects
             Console.WriteLine("You have arrived at the Diogenes Club. The club is quiet and members are engaged in their activities.");
             if (_cluesCollected.Contains("OrangeCravat"))
             {
-                Console.WriteLine("You ask the club's doorman about the man in the orange cravat. He says the man's name is Lionel Mabry and was inquiring about club membership. Lionel left in a hurry carrying a red briefcase.");
-                Console.WriteLine("You ask him if he knows where the man went, but he says he doesn't know.");
+                Console.WriteLine("You ask the club's doorman about the man in the orange cravat. He says the man's name is Lionel Mabry and that Lional was inquiring about club membership.");
+                Console.WriteLine(" Lionel left in a hurry carrying a red briefcase. You ask the doorman if he knows where the man went, but he says he doesn't know.");
             }
             else
             {
@@ -416,13 +433,22 @@ namespace ThreeSuspects
             Console.WriteLine("You have arrived at Euston Station");
             if (_cluesCollected.Contains("PinkDressGirl"))
             {
-                Console.WriteLine("It is easy to spot the girl in the pink dress carrying a large bouquet of flowers boarding the train to Manchester.");
+                Console.WriteLine("It is easy to spot the girl in the pink dress carrying a large bouquet of flowers on the platform of the train to Manchester.");
             }
             else
             {
                 Console.WriteLine("No one seems of particular interest to you.");
             }
             CatchTrain("Manchester");
+        }
+
+        public void VisitVictoriaStation()
+        {
+            _playerSteps++;
+            Console.WriteLine("");
+            Console.WriteLine($"Player Step: {_playerSteps}");
+            Console.WriteLine("");
+            Console.WriteLine("You have arrived at Victoria Station");
         }
 
         public void ViewMap()
@@ -451,44 +477,47 @@ namespace ThreeSuspects
             switch (choice)
             {
                 case "E":
-                    Console.WriteLine("You have arrived at Euston Station.");
+                    VisitEustonStation();
 
                     break;
                 case "B":
-                    Console.WriteLine("You have arrived at the British Museum.");
+                    VisitMuseum();
 
                     break;
                 case "W":
-                    Console.WriteLine("You have arrived at Waldenboch Florists.");
+                    VisitFlorists();
 
                     break;
                 case "P":
-                    Console.WriteLine("You have arrived at Plumber Scampie & Sons.");
+                    VisitPlumbers();
 
                     break;
                 case "D":
-                    Console.WriteLine("You have arrived at the Diogenes Club.");
+                    VisitDiogenesClub();
 
                     break;
                 case "G":
-                    Console.WriteLine("You have arrived at the German Embassy. It is closed for the day due to plumbing issues causing a flood overnight.");
+                    VisitEmbassy();
 
                     break;
                 case "S":
-                    Console.WriteLine("You have arrived at St James's Park. There are lots of people around.");
+                    VisitPark();
 
                     break;
                 case "C":
-                    Console.WriteLine("You have arrived at Charing Cross Station.");
+                    VisitCharingCrossStation();
 
                     break;
                 case "V":
-                    Console.WriteLine("You have arrived at Villiers St Hotel.");
+                    VisitHotel();
 
                     break;
                 case "M":
                     VisitMarket();
 
+                    break;
+                case "VS":
+                    VisitVictoriaStation();
                     break;
                 case "X":
                     Console.WriteLine("Back to main menu.");
@@ -608,11 +637,17 @@ namespace ThreeSuspects
             if (_cluesCollected.Contains("BlueHatLady"))
             {
                 Console.WriteLine("You ask about the lady with the bright blue hat.");
-                Console.WriteLine("A cab driver informs you that a lady with a bright blue hat and yellow handbag was picked up at St James' Park and dropped off outside the Villiers St Hotel. He thinks she walked in the direction of Charing Cross Station, but he is not sure because he had another passenger jump into his cab in a hurry.");
+                Console.WriteLine("A cab driver informs you that a lady with a bright blue hat and yellow handbag was picked up at St James' Park and dropped off outside the Villiers St Hotel.");
+                Console.WriteLine("He thinks she walked in the direction of Charing Cross Station, but he is not sure because he had another passenger jump into his cab in a hurry.");
+            }
+            if (_cluesCollected.Contains("TallBeardedMan"))
+            {
+                Console.WriteLine("You ask about the tall bearded man.");
+                Console.WriteLine("A cab driver informs you he was picked up Villiers St Hotel and driven to Victoria Station with his green briefcase.");
             }
             else
             {
-                Console.WriteLine("A cab driver says he can help you track the suspects if you come back with a description of them.");
+                Console.WriteLine("A cab driver says he can help you only track suspects who took a cab if you come back with a description of them.");
             }
             
         }
