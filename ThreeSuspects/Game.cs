@@ -10,10 +10,18 @@ namespace ThreeSuspects
 
         private List<string> _cluesCollected = new();
 
+        private List<string> _inventory = new();
+
         public void AddClue(string clue)
         {
             _cluesCollected.Add(clue);
         }
+
+        public void AddToInventory(string item)
+        {
+            _inventory.Add(item);
+        }
+
         private bool _isCulpritCaught = false;
 
         private int _playerSteps = 0;
@@ -26,7 +34,33 @@ namespace ThreeSuspects
             }
         }
 
+        //private int _money
+        //{
+        //    if (_money <= 0)
+        //    {
+        //        Console.WriteLine("You have run out of money! You cannot continue your investigation.");
+        //        _isCulpritCaught = false;
+        //        _playerSteps = 11;
+        //    }
+        //    else)
+        //    {
+        //        return _money;
+        //    }
 
+        //} = 10;
+
+        private int _money = 10;
+        private void UseWallet(int amount)
+        {
+            if (_money - amount < 0)
+            {
+                Console.WriteLine("You do not have enough money to make this purchase.");
+            }
+            else
+            {
+                _money -= amount;
+            }
+        }
 
         public void Play()
         {
@@ -54,13 +88,17 @@ namespace ThreeSuspects
             
             while (true)
             {
+                Console.WriteLine("");
+                Console.WriteLine("");
                 Console.WriteLine($"The time is now {_timeInGame}:00 PM");
+                Console.WriteLine("");
                 Console.WriteLine("Choose a resource:");
                 Console.WriteLine("N - Newspaper");
                 Console.WriteLine("D - Directory");
                 Console.WriteLine("M - Map");
                 Console.WriteLine("T - Train schedule");
                 Console.WriteLine("P - Police reports");
+                Console.WriteLine("");
                 Console.Write("Enter your choice: ");
                 string choice = Console.ReadLine();
                 switch (choice)
@@ -91,17 +129,47 @@ namespace ThreeSuspects
 
         public void VisitMarket()
         {
+            Console.WriteLine("");
+            Console.WriteLine("");
             Console.WriteLine("You have arrived at the Market.");
             if (_cluesCollected.Contains("SB"))
             {
-                Console.WriteLine("You see a small boy running through the crowd carrying a yellow handbag.");
-                Console.WriteLine("He knocks into people and seems to be in a hurry.");
-                Console.WriteLine("You can try to follow him or ask around for more information.");
+                Console.WriteLine("You see a small boy selling an assortment of second hand bags at a corner stall.");
+                Console.WriteLine("He asks if you're interested in buying a second hand bag from him (Y/N)?");
+                string choice = Console.ReadLine();
+                if (choice == "Y")
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("The small boy shows you:");
+                    Console.WriteLine("R - A red briefcase");
+                    Console.WriteLine("G - A green briefcase");
+                    Console.WriteLine("Y - A yellow handbag");
+                    Console.WriteLine("Which one would you like to buy (R/G/Y)?");
+                    string itemChoice = Console.ReadLine();
+                    if (itemChoice == "R")
+                    {
+                        Console.WriteLine("You purchase the red briefcase.");
+                        AddToInventory("RedBriefcase");
+                        UseWallet(3);
+                    }
+                    else if (itemChoice == "G")
+                    {
+                        Console.WriteLine("You purchase the green briefcase.");
+                        AddToInventory("GreenBriefcase");
+                        UseWallet(3);
+                    }
+                    else if (itemChoice == "Y")
+                    {
+                        Console.WriteLine("You purchase the yellow handbag.");
+                        AddToInventory("YellowHandbag");
+                        UseWallet(3);
+                    }
+                }
             }
             else
             {
-                Console.WriteLine("The market is bustling with activity. You see various stalls selling fruits, vegetables, and other goods.");
-                Console.WriteLine("You can ask around for information or try to find clues about the stolen document.");
+                Console.WriteLine("The market is bustling with activity. You see various stalls selling fruits, vegetables, and second hand goods.");
+                Console.WriteLine("You ask around for information about the stolen document, but no one knows about it.");
             }
             _playerSteps++;
         }
@@ -109,7 +177,7 @@ namespace ThreeSuspects
         public void ViewMap()
         {
             Console.WriteLine("Select a location to visit by typing in the letter. Each visit will take up 1 player step and the clock will advance an hour.");
-            Console.WriteLine("Map of London");
+            Console.WriteLine("MAP OF LONDON");
             Console.WriteLine("-------------");
             Console.WriteLine("E - Euston Station");
             Console.WriteLine("B - British Museum");
@@ -122,6 +190,9 @@ namespace ThreeSuspects
             Console.WriteLine("V - Villiers St Hotel");
             Console.WriteLine("M - Market");
             Console.WriteLine("-------------");
+            Console.WriteLine("X - Back to main menu");
+            Console.WriteLine("");
+            Console.WriteLine("Enter your choice:");
             string choice = Console.ReadLine();
             switch (choice)
             {
@@ -165,12 +236,16 @@ namespace ThreeSuspects
                     VisitMarket();
 
                     break;
+                case "X":
+                    Console.WriteLine("Back to main menu.");
+                    return;
+                    
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
                     ViewMap();
                     return;
             }
-            _playerSteps++;
+            
 
         }
 
@@ -190,7 +265,7 @@ namespace ThreeSuspects
             {
 
                 case "D":
-                    Console.WriteLine("Diogenes Club: The constable reports that a man in an orange cravat and carrying a briefcase was seen catching a cab upon leaving the club at 12:46pm.");
+                    Console.WriteLine("Diogenes Club: The constable reports that a man in an orange cravat and carrying a red briefcase was seen catching a cab upon leaving the club at 12:46pm.");
                     AddClue("OC");
                     break;
                 case "C":
@@ -200,7 +275,7 @@ namespace ThreeSuspects
                     AddClue("OM");
                     break;
                 case "S":
-                    Console.WriteLine("St James's Park: The constable reports that the park was busy, but no suspicious activity was observed.");
+                    Console.WriteLine("St James's Park: The constable reports that the park was busy at lunchtime as the weather was particularly pleasant today, but no suspicious activity was observed.");
                     break;
                 case "CC":
                     Console.WriteLine("Charing Cross Station: The constable reports that a small boy ran off with a lady's yellow handbag. She told the constable not to worry about the bag as she was late catching her train. She was wearing a bright blue hat.");
@@ -211,7 +286,7 @@ namespace ThreeSuspects
                     AddClue("TB");
                     break;
                 case "M":
-                    Console.WriteLine("Market: The constable reports that a small boy carrying a yellow handbag was running through the crowd knocking into people.");
+                    Console.WriteLine("Market: The constable reports that the grocer complained about a small boy running through the crowd knocked over the grocer's display of apples. While the grocer stumbled over the rolling apples on the ground, the boy had disappeared into the crowd.");
                     AddClue("SB");
                     break;
                 default:
