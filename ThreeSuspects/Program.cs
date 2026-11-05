@@ -9,6 +9,8 @@
             Console.WriteLine("It was stolen by one of three suspects through an open window at the Diogenes Club between 12:40pm and 12:50pm.");
             Console.WriteLine("Track the thief and retrieve the document before midnight!");
             Console.WriteLine("Mycroft has given you 10 pounds to pay for investigation expenses.");
+            Console.WriteLine("Using the map to visit locations will count as time used in game.");
+            Console.WriteLine("It is recommended you read start with reading the police reports on Diogenes Club and Carlton House Terrace as they are closest to the scene of crime.");
             Game game = new Game();
             game.Play();
         }
