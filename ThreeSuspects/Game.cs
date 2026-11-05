@@ -212,13 +212,12 @@ namespace ThreeSuspects
             Console.WriteLine($"Player Step: {_playerSteps}");
             Console.WriteLine("");
             Console.WriteLine("You have arrived at Charing Cross Station. The platforms are bustling with passengers.");
+            Console.WriteLine("You ask the station master if there has been any suspicious incidents today.");
+            Console.WriteLine("He says a boy stole a handbag from a passenger and ran off in the direction of the markets.");
+            AddClue("YellowHandbag");
             if (_cluesCollected.Contains("BlueHatLady"))
             {
-                Console.WriteLine("You ask the station master about the lady with the bright blue hat and yellow handbag. He says he saw her running to catch a train to Cheltenham.");
-            }
-            if (!_cluesCollected.Contains("BlueHatLady"))
-            {
-                Console.WriteLine("No one seems of particular interest to you.");
+                Console.WriteLine("You ask the station master about the lady with the bright blue hat. He says, \"That's the passenger who had her handbag stolen! I saw her running to catch a train to Cheltenham.\"");
             }
             CatchTrain("Cheltenham");
             Console.WriteLine("You decide to leave the station and continue your investigation.");
@@ -240,6 +239,34 @@ namespace ThreeSuspects
                     AddClue("OrangeCravat");
                     Console.WriteLine("No one else in Cheltenham knows about the stolen document. You return back to London.");
                 }
+                if (destination == "Manchester")
+                {
+                    
+                    if (_cluesCollected.Contains("PinkDressGirl"))
+                    {
+                        Console.WriteLine("On the platform, you approach the girl in a pink dress carrying a large bouquet of flowers.");
+                        if (_inventory.Contains("Flowers"))
+                        {
+                            Console.WriteLine("You pretend to bump into her by accident and causing her to drop her flowers on the ground. The flowers scatter on the platform. You offer your bouquet as a replacement.");
+                        }
+                        if (_cluesCollected.Contains("OrangeCravat"))
+                        {
+                            Console.WriteLine("You ask her about the man in the orange cravat. \"That's Lionel, my boyfriend.\" she says, her face darkening.");
+                            Console.WriteLine("\"I discovered a bouquet of roses in my sister's room with a card signed by him.\"");
+                        }
+                        if (!_cluesCollected.Contains("Flowers"))
+                        {
+                            Console.WriteLine("She throws the bouquet into a garbage bin before boarding the train. You notice she is not carrying anything else. You pick up the bouquet from the garbage bin and find nothing but flowers.");
+                        }
+
+                    }
+                    
+                    else
+                    {
+                        Console.WriteLine("No one aboard knows anything about a stolen document.");
+                    }
+                    Console.WriteLine("No one else in Manchester knows about the stolen document. You return back to London.");
+                }
             }
             else
             {
@@ -247,9 +274,160 @@ namespace ThreeSuspects
             }
         }
 
+        public void VisitPark()
+        {
+            _playerSteps++;
+            Console.WriteLine("");
+            Console.WriteLine($"Player Step: {_playerSteps}");
+            Console.WriteLine("");
+            Console.WriteLine("You have arrived at St James's Park. The park is busy with people enjoying the pleasant weather.");
+            if (_cluesCollected.Contains("BlueHatLady"))
+            {
+                Console.WriteLine("You look around for the lady with the bright blue hat. She is nowhere to be seen in the park.");
+            }
+            if (_cluesCollected.Contains("OverallsMan"))
+            {
+                Console.WriteLine("You see the big man with overalls sitting under a tree eating his lunch. You sit next to him and make friendly conversation.");
+                Console.WriteLine("While he is distracted, you look into his bag but all you find are plumbing tools.");
+            }
+            else
+            {
+                Console.WriteLine("No one seems of particular interest to you.");
+            }
+        }
+
+        public void VisitEmbassy()
+        {
+            _playerSteps++;
+            Console.WriteLine("");
+            Console.WriteLine($"Player Step: {_playerSteps}");
+            Console.WriteLine("");
+            Console.WriteLine("You have arrived at the German Embassy.");
+            if (_cluesCollected.Contains("OverallsMan"))
+            {
+                Console.WriteLine("You ask the security guard about the big man with overalls.");
+                Console.WriteLine("He says the man with overalls is a plumber who was called in to fix the plumbing issues.");
+            }
+            else
+            {
+                Console.WriteLine("The embassy is closed for the day due to plumbing issues causing a flood overnight. No one is there except a stern looking security guard eyeing you suspiciously.");
+            }
+        }
+
+        public void VisitDiogenesClub()
+        {
+            _playerSteps++;
+            Console.WriteLine("");
+            Console.WriteLine($"Player Step: {_playerSteps}");
+            Console.WriteLine("");
+            Console.WriteLine("You have arrived at the Diogenes Club. The club is quiet and members are engaged in their activities.");
+            if (_cluesCollected.Contains("OrangeCravat"))
+            {
+                Console.WriteLine("You ask the club's doorman about the man in the orange cravat. He says the man's name is Lionel Mabry and was inquiring about club membership. Lionel left in a hurry carrying a red briefcase.");
+                Console.WriteLine("You ask him if he knows where the man went, but he says he doesn't know.");
+            }
+            else
+            {
+                Console.WriteLine("No one seems of particular interest to you.");
+            }
+        }
+
+        public void VisitPlumbers()
+        {
+            _playerSteps++;
+            Console.WriteLine("");
+            Console.WriteLine($"Player Step: {_playerSteps}");
+            Console.WriteLine("");
+            Console.WriteLine("You have arrived at Plumber Scampie & Sons. The shop is busy with customers.");
+            if (_cluesCollected.Contains("OverallsMan"))
+            {
+                Console.WriteLine("You ask about the big man with overalls. \"That's Jim, my eldest,\" says Mr. Scampie.");
+                Console.WriteLine("\"He's not here at the moment. He went to fix the plumbing issues at the German Embassy.\"");
+            }
+            else
+            {
+                Console.WriteLine("No one seems of particular interest to you.");
+            }
+        }
+
+        public void VisitFlorists()
+        {
+            _playerSteps++;
+            Console.WriteLine("");
+            Console.WriteLine($"Player Step: {_playerSteps}");
+            Console.WriteLine("");
+            Console.WriteLine("You have arrived at Waldenboch Florists. The shop is filled with the scent of fresh flowers.");
+            if (_cluesCollected.Contains("OrangeCravat"))
+            {
+                Console.WriteLine("You ask the florist about the man in the orange cravat. \"The man bought the largest bouquet of flowers and left in a hurry,\" says the florist.");
+                Console.WriteLine("\"He was in such a hurry, he even left his red briefcase behind. I checked inside to see if there was a name or an address but it was empty.\"");
+            }
+            else
+            {
+                Console.WriteLine("No one seems of particular interest to you.");
+            }
+            BuyFlowers();
+            Console.WriteLine("You thank the florist and leave.");
+        }
+
+        public void BuyFlowers()
+        {
+            Console.WriteLine("The florist asks if you would like to buy a large bouquet of flowers for 2 pounds (Y/N)?");
+            string choice = Console.ReadLine();
+            Console.WriteLine("");
+            if (choice == "Y")
+            {
+                Console.WriteLine("You purchase a large bouquet of flowers.");
+                UseWallet(2);
+                AddToInventory("Flowers");
+            }
+        }
+
+        public void VisitMuseum()
+        {
+            _playerSteps++;
+            Console.WriteLine("");
+            Console.WriteLine($"Player Step: {_playerSteps}");
+            Console.WriteLine("");
+            Console.WriteLine("You have arrived at the British Museum. The museum is filled with visitors admiring the exhibits.");
+            if (_cluesCollected.Contains("OrangeCravat"))
+            {
+                Console.WriteLine("You ask the museum staff about the man in the orange cravat. They say he was here earlier today and met up with a girl in a pink dress.");
+                Console.WriteLine("The girl looked quite upset and mentioned something about Manchester.");
+                Console.WriteLine("He gave the girl a large bouquet of flowers and she took them but stormed angrily out of the museum in tears.");
+                Console.WriteLine("\"The man asked me if I had seen his lost red briefcase,\" the staff member says.");
+                Console.WriteLine("\"He has been sitting alone at the museum cafe since then,\" the staff member points out.");
+                Console.WriteLine("You see the dejected-looking man with an orange cravat without a briefcase and decide to leave him alone.");
+                AddClue("PinkDressGirl");
+            }
+            else
+            {
+                Console.WriteLine("No one seems of particular interest to you.");
+            }
+            
+        }
+
+        public void VisitEustonStation()
+        {
+            _playerSteps++;
+            Console.WriteLine("");
+            Console.WriteLine($"Player Step: {_playerSteps}");
+            Console.WriteLine("");
+            Console.WriteLine("You have arrived at Euston Station");
+            if (_cluesCollected.Contains("PinkDressGirl"))
+            {
+                Console.WriteLine("It is easy to spot the girl in the pink dress carrying a large bouquet of flowers boarding the train to Manchester.");
+            }
+            else
+            {
+                Console.WriteLine("No one seems of particular interest to you.");
+            }
+            CatchTrain("Manchester");
+        }
+
         public void ViewMap()
         {
-            Console.WriteLine("Select a location to visit by typing in the letter. Each visit will take up 1 hour and the clock will advance an hour.");
+            Console.WriteLine("Select a location to visit by typing in the letter. Each visit will take up to 1 hour and the clock will advance an hour.");
             Console.WriteLine("MAP OF LONDON");
             Console.WriteLine("-------------");
             Console.WriteLine("E - Euston Station");
@@ -262,6 +440,7 @@ namespace ThreeSuspects
             Console.WriteLine("C - Charing Cross Station");
             Console.WriteLine("V - Villiers St Hotel");
             Console.WriteLine("M - Market");
+            Console.WriteLine("VS - Victoria Station");
             Console.WriteLine("-------------");
             Console.WriteLine("X - Back to main menu");
             Console.WriteLine("");
